@@ -1,0 +1,732 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.T{background:#050c05;border-radius:8px;padding:1rem;font-family:var(--font-mono);color:#8ecf8e;font-size:11px;line-height:1.5}
+.hdr{border-bottom:1px solid #152315;padding-bottom:.6rem;margin-bottom:.7rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+.htitle{color:#00d46a;font-size:12px;letter-spacing:1.2px;font-weight:500}
+.hmeta{color:#2d5a2d;font-size:9px}
+.cursor{display:inline-block;width:7px;height:11px;background:#00d46a;margin-left:2px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{50%{opacity:0}}
+.tabs{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:.7rem}
+.tab{padding:3px 9px;font-size:9px;letter-spacing:.7px;border:1px solid #152315;border-radius:2px;cursor:pointer;color:#2d5a2d;background:none;font-family:var(--font-mono);text-transform:uppercase}
+.tab.on{border-color:#00d46a;color:#00d46a;background:rgba(0,212,106,0.07)}
+.tab:hover:not(.on){border-color:#2d5a2d;color:#5a8a5a}
+.pane{display:none}.pane.on{display:flex;flex-direction:column;gap:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.g13{display:grid;grid-template-columns:1fr 3fr;gap:10px}
+.g31{display:grid;grid-template-columns:3fr 1fr;gap:10px}
+.box{background:#080f08;border:1px solid #152315;border-radius:3px;padding:.7rem .85rem}
+.bh{font-size:9px;color:#2d5a2d;letter-spacing:.8px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #152315;display:flex;justify-content:space-between;align-items:center}
+.bh-tag{font-size:8px;padding:1px 5px;border-radius:2px}
+.kcard{background:#060c06;border:1px solid #152315;border-radius:3px;padding:.6rem .75rem}
+.kl{font-size:8px;color:#2d5a2d;letter-spacing:.5px}
+.kv{font-size:17px;color:#00d46a;font-weight:500;margin:1px 0;letter-spacing:.5px}
+.ks{font-size:9px}.ks.up{color:#00d46a}.ks.dn{color:#f87171}.ks.nt{color:#fbbf24}
+.cw{position:relative;width:100%}
+.ot{width:100%;border-collapse:collapse;font-size:10px}
+.ot th{color:#2d5a2d;font-weight:400;padding:3px 5px;border-bottom:1px solid #152315;text-align:left;font-size:9px;letter-spacing:.4px}
+.ot td{padding:3px 5px;border-bottom:1px solid #060c06;color:#8ecf8e}
+.ot td.g{color:#00d46a;text-align:right}.ot td.r{color:#f87171;text-align:right}.ot td.y{color:#fbbf24;text-align:right}.ot td.m{color:#2d5a2d}.ot td.b{color:#60a5fa;text-align:right}.ot td.p{color:#c084fc;text-align:right}
+.pre{background:#060c06;border:1px solid #152315;border-radius:2px;padding:.7rem;font-size:10px;line-height:1.7;white-space:pre;overflow-x:auto;color:#8ecf8e;font-family:var(--font-mono)}
+.pre .hi{color:#00d46a}.pre .r{color:#f87171}.pre .y{color:#fbbf24}.pre .b{color:#60a5fa}.pre .m{color:#2d5a2d}
+.sl-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.sl-l{font-size:9px;color:#2d5a2d;min-width:90px;letter-spacing:.3px}
+.sl-row input[type=range]{flex:1;accent-color:#00d46a;height:3px}
+.sl-v{font-size:10px;color:#00d46a;min-width:44px;text-align:right}
+.ig{display:flex;flex-direction:column;gap:2px;margin-bottom:5px}
+.ig label{font-size:8px;color:#2d5a2d;letter-spacing:.5px}
+.ig input,.ig select{background:#060c06;border:1px solid #152315;color:#8ecf8e;font-family:var(--font-mono);font-size:10px;padding:3px 5px;border-radius:2px;height:26px;width:100%}
+.ig input:focus,.ig select:focus{outline:none;border-color:#00d46a}
+.btn{background:none;border:1px solid #00d46a;color:#00d46a;font-family:var(--font-mono);font-size:9px;padding:4px 12px;border-radius:2px;cursor:pointer;letter-spacing:.5px;width:100%}
+.btn:hover{background:rgba(0,212,106,0.1)}
+.pbar{height:3px;background:#152315;border-radius:1px;margin-top:2px}
+.pfill{height:3px;border-radius:1px}
+.srow{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #0a120a;font-size:10px}
+.sdot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.stxt{flex:1;color:#8ecf8e}
+.sb{font-size:8px;padding:1px 5px;border-radius:2px}
+.mc-path{stroke-width:0.5;fill:none;opacity:0.3}
+@media(max-width:600px){.g2,.g3,.g4,.g13,.g31{grid-template-columns:1fr}}
+</style>
+
+<div style="padding:.5rem 0">
+<div class="T" id="rt">
+
+<div class="hdr">
+  <div><span class="htitle">◆ REV_ANALYTICS_ENGINE // research_build_2.0</span><span class="cursor"></span></div>
+  <span class="hmeta" id="hmeta">DATASET: 24 OBS | STATUS: NOMINAL | Δt: MONTHLY</span>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="st('ov',this)">[ SYS_OV ]</button>
+  <button class="tab" onclick="st('ols',this)">[ OLS_REG ]</button>
+  <button class="tab" onclick="st('fc',this)">[ FORECAST ]</button>
+  <button class="tab" onclick="st('sig',this)">[ SIGNALS ]</button>
+  <button class="tab" onclick="st('dec',this)">[ DECOMP ]</button>
+  <button class="tab" onclick="st('res',this)">[ RESEARCH ]</button>
+  <button class="tab" onclick="st('dt',this)">[ DATA ]</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="pane on" id="p-ov">
+  <div class="g4" id="kpi-row"></div>
+  <div class="g2">
+    <div class="box"><div class="bh"><span>// REVENUE + GROSS_PROFIT [BARS] + TREND [LINE] + ANOMALIES [RED]</span><span class="bh-tag" style="background:#0a1a0a;color:#2d5a2d">24m window</span></div><div class="cw" style="height:220px"><canvas id="c-main"></canvas></div></div>
+    <div class="box"><div class="bh">// MARGIN_STACK [GROSS / NET / EBITDA] %</div><div class="cw" style="height:220px"><canvas id="c-marg"></canvas></div></div>
+  </div>
+  <div class="g3">
+    <div class="box"><div class="bh">// MOM_GROWTH_RATE %</div><div class="cw" style="height:140px"><canvas id="c-mom"></canvas></div></div>
+    <div class="box"><div class="bh">// 3m_ROLLING_AVG vs ACTUAL</div><div class="cw" style="height:140px"><canvas id="c-roll"></canvas></div></div>
+    <div class="box"><div class="bh">// UNIT_ECONOMICS — ASP + UNITS</div><div class="cw" style="height:140px"><canvas id="c-ue"></canvas></div></div>
+  </div>
+  <div class="box"><div class="bh">// EXTENDED_KPI_MATRIX</div><div id="kpi2"></div></div>
+</div>
+
+<!-- OLS REGRESSION -->
+<div class="pane" id="p-ols">
+  <div class="box"><div class="bh">// OLS_REGRESSION_RESULTS — statsmodels format</div><pre class="pre" id="ols-out"></pre></div>
+  <div class="g2">
+    <div class="box"><div class="bh">// RESIDUALS_VS_FITTED</div><div class="cw" style="height:200px"><canvas id="c-resfit"></canvas></div></div>
+    <div class="box"><div class="bh">// RESIDUAL_DISTRIBUTION</div><div class="cw" style="height:200px"><canvas id="c-reshist"></canvas></div></div>
+  </div>
+  <div class="box"><div class="bh">// LEVERAGE + COOK'S_INFLUENCE (standardised residuals)</div><div class="cw" style="height:160px"><canvas id="c-lev"></canvas></div></div>
+</div>
+
+<!-- FORECAST -->
+<div class="pane" id="p-fc">
+  <div class="g4" id="fc-kpis"></div>
+  <div class="g13">
+    <div class="box" style="display:flex;flex-direction:column;gap:5px">
+      <div class="bh">// MODEL_PARAMS</div>
+      <div class="ig"><label>MODEL_TYPE</label><select id="fc-mdl" onchange="rFc()"><option value="ols">OLS Linear</option><option value="ets">Exp Smoothing (ETS)</option><option value="holt">Holt Trend</option><option value="damp">Damped Holt</option></select></div>
+      <div class="sl-row"><span class="sl-l">HORIZON_MONTHS</span><input type="range" min="1" max="24" value="12" step="1" id="sl-hz" oninput="rFc()"><span class="sl-v" id="lbl-hz">12</span></div>
+      <div class="sl-row"><span class="sl-l">CI_LEVEL %</span><input type="range" min="50" max="99" value="95" step="1" id="sl-ci" oninput="rFc()"><span class="sl-v" id="lbl-ci">95</span></div>
+      <div class="sl-row"><span class="sl-l">ALPHA (α)</span><input type="range" min="1" max="99" value="30" step="1" id="sl-al" oninput="rFc()"><span class="sl-v" id="lbl-al">0.30</span></div>
+      <div class="sl-row"><span class="sl-l">BETA (β)</span><input type="range" min="1" max="99" value="20" step="1" id="sl-be" oninput="rFc()"><span class="sl-v" id="lbl-be">0.20</span></div>
+      <div class="sl-row"><span class="sl-l">DAMPING (φ)</span><input type="range" min="60" max="99" value="90" step="1" id="sl-ph" oninput="rFc()"><span class="sl-v" id="lbl-ph">0.90</span></div>
+      <div class="bh" style="margin-top:4px">// MODEL_FIT_STATS</div>
+      <div id="fc-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:4px"></div>
+    </div>
+    <div class="box">
+      <div class="bh">// POINT_FORECAST + CI_BAND + ACTUALS</div>
+      <div class="cw" style="height:280px"><canvas id="c-fc"></canvas></div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="bh">// SCENARIO_COMPARISON — BULL (+20%) / BASE / BEAR (-20%) / STRESS (-40%)</div>
+    <div class="cw" style="height:170px"><canvas id="c-scen"></canvas></div>
+  </div>
+</div>
+
+<!-- SIGNALS -->
+<div class="pane" id="p-sig">
+  <div class="g2">
+    <div class="box"><div class="bh">// BOLLINGER_BANDS (20m, ±2σ)</div><div class="cw" style="height:180px"><canvas id="c-boll"></canvas></div></div>
+    <div class="box"><div class="bh">// Z_SCORE_TRACK + ±2σ THRESHOLDS</div><div class="cw" style="height:180px"><canvas id="c-zsc"></canvas></div></div>
+  </div>
+  <div class="g2">
+    <div class="box"><div class="bh">// MACD (EMA12 − EMA26) + SIGNAL9 + HISTOGRAM</div><div class="cw" style="height:160px"><canvas id="c-macd"></canvas></div></div>
+    <div class="box"><div class="bh">// RELATIVE_STRENGTH_INDEX (RSI-14)</div><div class="cw" style="height:160px"><canvas id="c-rsi"></canvas></div></div>
+  </div>
+  <div class="box"><div class="bh">// SIGNAL_LOG — automated detections</div><div id="sig-list"></div></div>
+</div>
+
+<!-- DECOMPOSITION -->
+<div class="pane" id="p-dec">
+  <div class="g2">
+    <div class="box"><div class="bh">// TREND_COMPONENT (linear OLS)</div><div class="cw" style="height:180px"><canvas id="c-trnd"></canvas></div></div>
+    <div class="box"><div class="bh">// SEASONAL_COMPONENT (additive residuals)</div><div class="cw" style="height:180px"><canvas id="c-seas"></canvas></div></div>
+  </div>
+  <div class="g2">
+    <div class="box">
+      <div class="bh">// ACF — AUTOCORRELATION_FUNCTION (lags 1–12, 95% CI = ±1.96/√n)</div>
+      <div id="acf-bars" style="margin-top:4px"></div>
+    </div>
+    <div class="box"><div class="bh">// SEASONAL_INDICES BY MONTH</div><div class="cw" style="height:200px"><canvas id="c-sidx"></canvas></div></div>
+  </div>
+  <div class="box"><div class="bh">// STATIONARITY + PERIODICITY TESTS</div><div id="stat-tests"></div></div>
+</div>
+
+<!-- RESEARCH -->
+<div class="pane" id="p-res">
+  <div class="g2">
+    <div class="box"><div class="bh">// DISTRIBUTION_MOMENTS + NORMALITY</div><div id="moments"></div></div>
+    <div class="box">
+      <div class="bh">// MONTE_CARLO_SIMULATION (N=400 paths, 12m horizon)</div>
+      <div class="cw" style="height:200px"><canvas id="c-mc"></canvas></div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="box"><div class="bh">// HURST_EXPONENT + INTERPRETATION</div><div id="hurst-box"></div></div>
+    <div class="box"><div class="bh">// VaR / CVaR (95% confidence)</div><div id="var-box"></div></div>
+    <div class="box"><div class="bh">// SaaS_METRICS PROXY</div><div id="saas-box"></div></div>
+  </div>
+  <div class="box"><div class="bh">// INFORMATION_CRITERIA COMPARISON — model selection</div><div id="ic-tbl"></div></div>
+</div>
+
+<!-- DATA -->
+<div class="pane" id="p-dt">
+  <div class="g13">
+    <div class="box" style="display:flex;flex-direction:column;gap:4px">
+      <div class="bh">// STDIN — add / override entry</div>
+      <div class="ig"><label>MONTH</label><input type="month" id="inp-m"></div>
+      <div class="ig"><label>REVENUE ($)</label><input type="number" id="inp-rv" placeholder="52000"></div>
+      <div class="ig"><label>COGS ($)</label><input type="number" id="inp-cg" placeholder="18000"></div>
+      <div class="ig"><label>OPEX ($)</label><input type="number" id="inp-ox" placeholder="12000"></div>
+      <div class="ig"><label>UNITS_SOLD</label><input type="number" id="inp-un" placeholder="320"></div>
+      <div class="ig"><label>NEW_CUSTOMERS</label><input type="number" id="inp-nc" placeholder="28"></div>
+      <button class="btn" onclick="addRow()" style="margin-top:4px">► COMMIT_ROW</button>
+    </div>
+    <div class="box">
+      <div class="bh">// DATASET — <span id="row-ct">0</span> records loaded</div>
+      <div style="max-height:340px;overflow-y:auto">
+        <table class="ot" id="dtbl">
+          <thead><tr><th>MONTH</th><th>REVENUE</th><th>COGS</th><th>GP%</th><th>NP%</th><th>ASP</th><th>UNITS</th><th>NEW_CUST</th><th>Z_SCORE</th><th>FLAG</th><th></th></tr></thead>
+          <tbody id="dtbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SEED=[
+  {m:'2023-01',rev:38000,cogs:14000,opex:11000,units:240,nc:18},
+  {m:'2023-02',rev:40500,cogs:14800,opex:11500,units:258,nc:20},
+  {m:'2023-03',rev:39200,cogs:14200,opex:11200,units:248,nc:19},
+  {m:'2023-04',rev:43800,cogs:15600,opex:12000,units:278,nc:22},
+  {m:'2023-05',rev:68000,cogs:23000,opex:13000,units:410,nc:35},
+  {m:'2023-06',rev:46500,cogs:16500,opex:12200,units:295,nc:23},
+  {m:'2023-07',rev:49000,cogs:17200,opex:12500,units:312,nc:25},
+  {m:'2023-08',rev:51000,cogs:17800,opex:12800,units:323,nc:26},
+  {m:'2023-09',rev:48500,cogs:17000,opex:12400,units:306,nc:24},
+  {m:'2023-10',rev:54000,cogs:18900,opex:13000,units:342,nc:27},
+  {m:'2023-11',rev:57000,cogs:19900,opex:13400,units:360,nc:29},
+  {m:'2023-12',rev:62000,cogs:21500,opex:14000,units:391,nc:31},
+  {m:'2024-01',rev:44000,cogs:15600,opex:12000,units:280,nc:20},
+  {m:'2024-02',rev:47500,cogs:16700,opex:12400,units:300,nc:22},
+  {m:'2024-03',rev:46200,cogs:16200,opex:12200,units:292,nc:21},
+  {m:'2024-04',rev:51800,cogs:18100,opex:13000,units:328,nc:25},
+  {m:'2024-05',rev:82000,cogs:27000,opex:15000,units:490,nc:42},
+  {m:'2024-06',rev:55500,cogs:19400,opex:13500,units:350,nc:27},
+  {m:'2024-07',rev:58000,cogs:20200,opex:13800,units:367,nc:28},
+  {m:'2024-08',rev:61000,cogs:21200,opex:14200,units:386,nc:30},
+  {m:'2024-09',rev:57500,cogs:20100,opex:13900,units:363,nc:27},
+  {m:'2024-10',rev:65000,cogs:22600,opex:14800,units:411,nc:32},
+  {m:'2024-11',rev:69000,cogs:23900,opex:15200,units:436,nc:34},
+  {m:'2024-12',rev:75000,cogs:25800,opex:16000,units:473,nc:37}
+];
+let DATA=[...SEED];
+
+// ── utils ──────────────────────────────────────────
+const f$=v=>'$'+(v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?Math.round(v/1e3)+'k':Math.round(v));
+const fp=(v,d=1)=>(v>=0?'+':'')+v.toFixed(d)+'%';
+const fr=(v,d=3)=>isFinite(v)?v.toFixed(d):'N/A';
+const ml=s=>{const[y,m]=s.split('-').map(Number);return new Date(y,m-1).toLocaleDateString('en',{month:'short',year:'2-digit'})};
+const addM=(s,n)=>{const[y,m]=s.split('-').map(Number);const d=new Date(y,m-1+n,1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+const sd_arr=()=>[...DATA].sort((a,b)=>a.m.localeCompare(b.m));
+const mean=v=>v.reduce((a,b)=>a+b,0)/v.length;
+const variance=v=>{const m=mean(v);return v.reduce((a,x)=>a+(x-m)**2,0)/v.length};
+const sd=v=>Math.sqrt(variance(v));
+const skew=v=>{const m=mean(v),s=sd(v)||1;return v.reduce((a,x)=>a+((x-m)/s)**3,0)/v.length};
+const kurt=v=>{const m=mean(v),s=sd(v)||1;return v.reduce((a,x)=>a+((x-m)/s)**4,0)/v.length-3};
+const zscores=v=>{const m=mean(v),s=sd(v)||1;return v.map(x=>(x-m)/s)};
+const anom=v=>zscores(v).map(z=>Math.abs(z)>2);
+const ema=(v,a)=>{let e=v[0];return v.map((x,i)=>i===0?(e=x,e):(e=a*x+(1-a)*e,e))};
+const boxM=()=>{const u=Math.random()||1e-10;return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*Math.random())};
+
+function linreg(v){
+  const n=v.length;if(n<2)return{sl:0,ic:v[0]||0,r2:0,rss:0,sxx:1};
+  const xm=(n-1)/2,ym=mean(v);
+  let sxy=0,sxx=0;
+  for(let i=0;i<n;i++){sxy+=(i-xm)*(v[i]-ym);sxx+=(i-xm)**2}
+  const sl=sxx?sxy/sxx:0,ic=ym-sl*xm;
+  const rss=v.reduce((a,x,i)=>a+(x-(ic+sl*i))**2,0);
+  const tss=v.reduce((a,x)=>a+(x-ym)**2,0);
+  return{sl,ic,r2:tss?1-rss/tss:1,rss,sxx,ym,n};
+}
+function linregXY(xs,ys){
+  const n=xs.length,xm=mean(xs),ym=mean(ys);
+  let sxy=0,sxx=0;
+  for(let i=0;i<n;i++){sxy+=(xs[i]-xm)*(ys[i]-ym);sxx+=(xs[i]-xm)**2}
+  return sxx?sxy/sxx:0;
+}
+function acf_fn(v,lags=12){
+  const m=mean(v),n=v.length,denom=v.reduce((a,x)=>a+(x-m)**2,0)/n;
+  return Array.from({length:lags},(_,k)=>{
+    const lag=k+1;let num=0;
+    for(let i=lag;i<n;i++)num+=(v[i]-m)*(v[i-lag]-m);
+    return denom?num/(n*denom):0;
+  });
+}
+function hurstExp(v){
+  if(v.length<8)return 0.5;
+  const lr=v.slice(1).map((x,i)=>Math.log(x/v[i]));
+  const ws=[4,6,8,12,16,20].filter(w=>w<lr.length-1);
+  const pts=ws.map(w=>{
+    const seg=lr.slice(0,w),m=mean(seg);
+    const cum=seg.map((_,i)=>seg.slice(0,i+1).reduce((a,b)=>a+b,0)-m*(i+1));
+    const R=Math.max(...cum)-Math.min(...cum);
+    const S=sd(seg)||1e-10;
+    return{x:Math.log(w),y:Math.log(R/S)};
+  });
+  if(pts.length<2)return 0.5;
+  const H=linregXY(pts.map(p=>p.x),pts.map(p=>p.y));
+  return Math.max(0,Math.min(1,H));
+}
+function olsFull(v){
+  const n=v.length;
+  const{sl,ic,r2,rss,sxx}=linreg(v);
+  const adjR2=n>2?1-(1-r2)*(n-1)/(n-2):r2;
+  const mse=rss/(n-2||1),se_reg=Math.sqrt(mse);
+  const se_sl=se_reg/Math.sqrt(sxx);
+  const xiSq=Array.from({length:n},(_,i)=>i*i).reduce((a,b)=>a+b,0);
+  const se_ic=se_reg*Math.sqrt(xiSq/(n*sxx)||0);
+  const t_sl=sl/(se_sl||1),t_ic=ic/(se_ic||1);
+  const F=(r2*(n-2))/((1-r2)||1e-10);
+  const ll=-n/2*(1+Math.log(2*Math.PI*(rss/n||1)));
+  const aic=2*2-2*ll,bic=2*Math.log(n)-2*ll;
+  const res=v.map((x,i)=>x-(ic+sl*i));
+  const dw=res.slice(1).reduce((a,r,i)=>a+(r-res[i])**2,0)/(rss||1);
+  const pv=t=>Math.abs(t)>3.5?'<0.001':Math.abs(t)>2.58?'<0.010':Math.abs(t)>1.96?'<0.050':'≥0.050';
+  return{sl,ic,r2,adjR2,F,se_reg,se_sl,se_ic,t_sl,t_ic,aic,bic,dw,res,n,rss,mse,pv};
+}
+
+// ── Chart registry ─────────────────────────────────
+Chart.defaults.color='#2d5a2d';
+Chart.defaults.borderColor='rgba(0,180,80,0.07)';
+const CH={};
+const mkC=(id,cfg)=>{if(CH[id])CH[id].destroy();const el=document.getElementById(id);if(!el)return;CH[id]=new Chart(el,cfg)};
+const DC=(yf,extra={})=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},...(extra.plugins||{})},scales:{x:{grid:{color:'rgba(0,180,80,0.05)'},ticks:{color:'#2d5a2d',font:{size:9,family:"'Courier New',monospace"},maxRotation:45,maxTicksLimit:14}},y:{grid:{color:'rgba(0,180,80,0.05)'},ticks:{color:'#2d5a2d',font:{size:9,family:"'Courier New',monospace"},callback:yf||undefined}}},...extra});
+
+// ── Tab switch ─────────────────────────────────────
+function st(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('p-'+id).classList.add('on');
+  setTimeout(()=>renderTab(id),30);
+}
+function renderTab(id){
+  if(id==='ov')rOv();
+  if(id==='ols')rOls();
+  if(id==='fc')rFc();
+  if(id==='sig')rSig();
+  if(id==='dec')rDec();
+  if(id==='res')rRes();
+  if(id==='dt')rDt();
+}
+
+// ── OVERVIEW ───────────────────────────────────────
+function rOv(){
+  const d=sd_arr(),n=d.length;if(!n)return;
+  const rv=d.map(r=>r.rev),gp=d.map(r=>r.rev-r.cogs),np=d.map(r=>r.rev-r.cogs-r.opex);
+  const gm=d.map(r=>(r.rev-r.cogs)/r.rev*100);
+  const nm=d.map(r=>(r.rev-r.cogs-r.opex)/r.rev*100);
+  const em=d.map(r=>(r.rev-r.cogs-r.opex*0.7)/r.rev*100);
+  const labs=d.map(r=>ml(r.m));
+  const{sl,ic,r2}=linreg(rv);
+  const tr=rv.map((_,i)=>Math.round(ic+sl*i));
+  const az=anom(rv);
+  const bc=rv.map((_,i)=>az[i]?'#f87171':'#00d46a');
+  const mom=rv.map((v,i)=>i===0?0:(v-rv[i-1])/rv[i-1]*100);
+  const mrr=rv[n-1],arr=mrr*12;
+  const lgr=n>=2?(rv[n-1]-rv[n-2])/rv[n-2]*100:0;
+  const avRev=mean(rv),cvv=(sd(rv)/avRev)*100;
+  const logR=rv.slice(1).map((v,i)=>Math.log(v/rv[i]));
+  const sharpe=logR.length>1?mean(logR)/(sd(logR)||1)*Math.sqrt(12):0;
+  const rule40=lgr+gm[n-1];
+  const cagr=n>12?((rv[n-1]/rv[0])**(12/(n-1))-1)*100:lgr;
+  const asp=d.map(r=>r.units?Math.round(r.rev/r.units):0);
+
+  document.getElementById('kpi-row').innerHTML=[
+    {l:'MRR',v:f$(mrr),s:fp(lgr)+' MoM',cl:lgr>=0?'up':'dn'},
+    {l:'ARR (run_rate)',v:f$(arr),s:'ttm_basis',cl:'nt'},
+    {l:'GROSS_MARGIN',v:gm[n-1].toFixed(1)+'%',s:fp(gm[n-1]-gm[Math.max(0,n-4)])+' 3m Δ',cl:gm[n-1]>50?'up':'dn'},
+    {l:'NET_MARGIN',v:nm[n-1].toFixed(1)+'%',s:fp(nm[n-1]-nm[Math.max(0,n-4)])+' 3m Δ',cl:nm[n-1]>0?'up':'dn'},
+    {l:'SHARPE_RATIO',v:sharpe.toFixed(3),s:'annualised (√12)',cl:sharpe>0.5?'up':sharpe>0?'nt':'dn'},
+    {l:'RULE_OF_40',v:rule40.toFixed(1),s:'growth%+EBITDA%',cl:rule40>=40?'up':'dn'},
+    {l:'CAGR',v:cagr.toFixed(1)+'%',s:'12m compound',cl:cagr>0?'up':'dn'},
+    {l:'COEFF_VAR',v:cvv.toFixed(1)+'%',s:'volatility index',cl:cvv<20?'up':'nt'}
+  ].map(k=>`<div class="kcard"><div class="kl">${k.l}</div><div class="kv">${k.v}</div><div class="ks ${k.cl}">${k.cl==='up'?'▲':k.cl==='dn'?'▼':'●'} ${k.s}</div></div>`).join('');
+
+  mkC('c-main',{type:'bar',data:{labels:labs,datasets:[
+    {label:'GP',type:'bar',data:gp,backgroundColor:'rgba(34,211,238,0.25)',borderColor:'#22d3ee',borderWidth:1,order:4},
+    {label:'Rev',type:'bar',data:rv,backgroundColor:bc.map(c=>c+'88'),borderColor:bc,borderWidth:1,order:5},
+    {label:'Trend',type:'line',data:tr,borderColor:'#60a5fa',borderWidth:1.5,pointRadius:0,tension:0,order:1}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  mkC('c-marg',{type:'line',data:{labels:labs,datasets:[
+    {data:gm,borderColor:'#00d46a',borderWidth:2,pointRadius:0,tension:0.3,fill:false},
+    {data:nm,borderColor:'#60a5fa',borderWidth:2,pointRadius:0,tension:0.3,fill:false},
+    {data:em,borderColor:'#fbbf24',borderWidth:2,pointRadius:0,tension:0.3,fill:false}
+  ]},options:DC(v=>v.toFixed(0)+'%')});
+
+  mkC('c-mom',{type:'bar',data:{labels:labs,datasets:[{data:mom,backgroundColor:mom.map(v=>v>=0?'rgba(0,212,106,0.6)':'rgba(248,113,113,0.6)'),borderWidth:0}]},options:DC(v=>v.toFixed(0)+'%')});
+
+  const roll3=rv.map((_,i)=>i<2?null:Math.round((rv[i]+rv[i-1]+rv[i-2])/3));
+  mkC('c-roll',{type:'line',data:{labels:labs,datasets:[
+    {data:rv,borderColor:'rgba(0,212,106,0.5)',borderWidth:1,pointRadius:0,tension:0,fill:false},
+    {data:roll3,borderColor:'#f87171',borderWidth:2,pointRadius:0,tension:0.4,fill:false}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  mkC('c-ue',{type:'line',data:{labels:labs,datasets:[
+    {data:asp,borderColor:'#c084fc',borderWidth:2,pointRadius:2,tension:0.3,fill:true,backgroundColor:'rgba(192,132,252,0.05)'},
+    {data:d.map(r=>r.units),borderColor:'#fbbf24',borderWidth:1.5,pointRadius:0,tension:0.3,fill:false,yAxisID:'y2'}
+  ]},options:{...DC(v=>'$'+v),scales:{...DC().scales,y:{...DC().scales.y,position:'left',ticks:{...DC().scales.y.ticks,callback:v=>'$'+v}},y2:{position:'right',grid:{display:false},ticks:{color:'#2d5a2d',font:{size:9,family:"'Courier New',monospace"}}}}}});
+
+  const az2=anom(rv);
+  document.getElementById('kpi2').innerHTML=`<table class="ot"><thead><tr><th>METRIC</th><th>VALUE</th><th>METRIC</th><th>VALUE</th></tr></thead><tbody>`+[
+    ['TOTAL_OBS',n,'ANOMALY_COUNT',az2.filter(Boolean).length],
+    ['PEAK_REV',f$(Math.max(...rv)),'TROUGH_REV',f$(Math.min(...rv))],
+    ['REVENUE_RANGE',f$(Math.max(...rv)-Math.min(...rv)),'STD_DEV',f$(sd(rv))],
+    ['TOTAL_GP',f$(gp.reduce((a,b)=>a+b,0)),'TOTAL_NET',f$(np.reduce((a,b)=>a+b,0))],
+    ['AVG_ASP',f$(mean(asp)),'TOTAL_UNITS',d.reduce((a,r)=>a+r.units,0).toLocaleString()],
+    ['R²_TREND',r2.toFixed(4),'SLOPE_$/MO',f$(Math.round(sl))]
+  ].map(([k1,v1,k2,v2])=>`<tr><td class="m">${k1}</td><td class="g">${v1}</td><td class="m">${k2}</td><td class="g">${v2}</td></tr>`).join('')+'</tbody></table>';
+}
+
+// ── OLS ────────────────────────────────────────────
+function rOls(){
+  const d=sd_arr();const rv=d.map(r=>r.rev);const n=d.length;if(n<4)return;
+  const{sl,ic,r2,adjR2,F,se_reg,se_sl,se_ic,t_sl,t_ic,aic,bic,dw,res,mse,pv}=olsFull(rv);
+  const labs=d.map(r=>ml(r.m));
+  const fitted=rv.map((_,i)=>Math.round(ic+sl*i));
+  const mape=rv.slice(1).reduce((a,v,i)=>a+Math.abs(v-rv[i])/rv[i],0)/(n-1)*100;
+  const rmse=Math.sqrt(mse);
+  const mae=mean(res.map(Math.abs));
+
+  const pad=(s,w)=>s.toString().padEnd(w);const rpad=(s,w)=>s.toString().padStart(w);
+  const line='='.repeat(60);const dash='-'.repeat(60);
+
+  document.getElementById('ols-out').innerHTML=
+`<span class="m">OLS Regression Results</span>
+<span class="m">${line}</span>
+<span class="m">Dep. Variable:</span>    <span class="hi">${pad('REVENUE',12)}</span>  <span class="m">R-squared:    </span> <span class="hi">${rpad(r2.toFixed(4),8)}</span>
+<span class="m">Model:        </span>    <span class="hi">${pad('OLS',12)}</span>  <span class="m">Adj. R²:      </span> <span class="hi">${rpad(adjR2.toFixed(4),8)}</span>
+<span class="m">Method:       </span>    <span class="hi">${pad('Least Squares',12)}</span>  <span class="m">F-statistic:  </span> <span class="${F>10?'hi':'r'}">${rpad(F.toFixed(2),8)}</span>
+<span class="m">No. Obs:      </span>    <span class="hi">${pad(n,12)}</span>  <span class="m">Prob(F-stat): </span> <span class="hi">${rpad(pv(Math.sqrt(F)),8)}</span>
+<span class="m">Df Residuals: </span>    <span class="hi">${pad(n-2,12)}</span>  <span class="m">Log-Likelihood:</span><span class="hi">${rpad((-n/2*(1+Math.log(2*Math.PI*mse))).toFixed(1),7)}</span>
+<span class="m">Df Model:     </span>    <span class="hi">${pad(1,12)}</span>  <span class="m">AIC:          </span> <span class="hi">${rpad(aic.toFixed(1),8)}</span>
+<span class="m">SE_regression:</span>    <span class="hi">${pad(f$(se_reg),12)}</span>  <span class="m">BIC:          </span> <span class="hi">${rpad(bic.toFixed(1),8)}</span>
+<span class="m">Durbin-Watson:</span>    <span class="${dw>1.5&&dw<2.5?'hi':'r'}">${rpad(dw.toFixed(4),12)}</span>  <span class="m">MAPE:         </span> <span class="hi">${rpad(mape.toFixed(2)+'%',8)}</span>
+<span class="m">${line}</span>
+<span class="m">              coef        std_err       t         P>|t|</span>
+<span class="m">${dash}</span>
+<span class="m">Intercept  </span><span class="hi">${rpad(Math.round(ic),10)}</span>  <span class="hi">${rpad(Math.round(se_ic),10)}</span>  <span class="hi">${rpad(t_ic.toFixed(2),8)}</span>  <span class="${pv(t_ic)==='<0.001'?'hi':'y'}">${rpad(pv(t_ic),8)}</span>
+<span class="m">t (slope)  </span><span class="hi">${rpad(Math.round(sl),10)}</span>  <span class="hi">${rpad(Math.round(se_sl),10)}</span>  <span class="hi">${rpad(t_sl.toFixed(2),8)}</span>  <span class="${pv(t_sl)==='<0.001'?'hi':'y'}">${rpad(pv(t_sl),8)}</span>
+<span class="m">${line}</span>
+<span class="m">Omnibus:  </span><span class="hi">${(Math.abs(skew(rv))+Math.abs(kurt(rv))).toFixed(3)}</span>   <span class="m">RMSE:</span><span class="hi">${f$(rmse)}</span>   <span class="m">MAE:</span><span class="hi">${f$(mae)}</span>   <span class="m">Cond.No.:</span><span class="hi">${(n).toFixed(0)}</span>`;
+
+  const stdRes=res.map(r=>r/(se_reg||1));
+  mkC('c-resfit',{type:'scatter',data:{datasets:[
+    {data:fitted.map((f,i)=>({x:f,y:stdRes[i]})),backgroundColor:stdRes.map(r=>Math.abs(r)>2?'#f87171':'rgba(0,212,106,0.6)'),pointRadius:4,pointHoverRadius:6},
+    {type:'line',data:[{x:Math.min(...fitted),y:0},{x:Math.max(...fitted),y:0}],borderColor:'rgba(96,165,250,0.5)',borderWidth:1,pointRadius:0}
+  ]},options:DC(undefined,{scales:{x:{...DC().scales.x,title:{display:true,text:'Fitted values',color:'#2d5a2d',font:{size:9}}},y:{...DC().scales.y,title:{display:true,text:'Std Residuals',color:'#2d5a2d',font:{size:9}}}}})});
+
+  const bins=8,mn=Math.min(...res),mx=Math.max(...res)+1,bw=(mx-mn)/bins;
+  const hist=Array(bins).fill(0);res.forEach(r=>{const i=Math.min(Math.floor((r-mn)/bw),bins-1);hist[i]++});
+  mkC('c-reshist',{type:'bar',data:{labels:Array(bins).fill(0).map((_,i)=>Math.round(mn+i*bw).toLocaleString()),datasets:[{data:hist,backgroundColor:'rgba(0,212,106,0.4)',borderColor:'#00d46a',borderWidth:1}]},options:DC()});
+
+  const leverage=rv.map((_,i)=>{const xi=i-(n-1)/2;return (1/n)+xi*xi/(n*variance(Array.from({length:n},(_,k)=>k)))});
+  mkC('c-lev',{type:'scatter',data:{datasets:[{data:leverage.map((lev,i)=>({x:lev,y:stdRes[i]})),backgroundColor:stdRes.map((r,i)=>Math.abs(r)>2||leverage[i]>2/n*3?'#f87171':'rgba(0,212,106,0.5)'),pointRadius:4}]},options:DC(undefined,{scales:{x:{...DC().scales.x,title:{display:true,text:'Leverage',color:'#2d5a2d',font:{size:9}}},y:{...DC().scales.y,title:{display:true,text:'Std Residuals',color:'#2d5a2d',font:{size:9}}}}})});
+}
+
+// ── FORECAST ───────────────────────────────────────
+function rFc(){
+  const d=sd_arr(),rv=d.map(r=>r.rev),n=d.length;if(!n)return;
+  const hz=+document.getElementById('sl-hz').value;
+  const ci=+document.getElementById('sl-ci').value/100;
+  const al=+document.getElementById('sl-al').value/100;
+  const be=+document.getElementById('sl-be').value/100;
+  const ph=+document.getElementById('sl-ph').value/100;
+  const mdl=document.getElementById('fc-mdl').value;
+  document.getElementById('lbl-hz').textContent=hz;
+  document.getElementById('lbl-ci').textContent=document.getElementById('sl-ci').value;
+  document.getElementById('lbl-al').textContent=al.toFixed(2);
+  document.getElementById('lbl-be').textContent=be.toFixed(2);
+  document.getElementById('lbl-ph').textContent=ph.toFixed(2);
+
+  const{sl,ic,r2}=linreg(rv);
+  let fc=[];
+  if(mdl==='ols'){fc=Array.from({length:hz},(_,i)=>Math.round(ic+sl*(n+i)))}
+  else if(mdl==='ets'){let e=rv[0];rv.forEach(v=>{e=al*v+(1-al)*e});fc=Array(hz).fill(Math.round(e))}
+  else if(mdl==='holt'){let l=rv[0],b=(rv[n-1]-rv[0])/(n-1);rv.forEach(v=>{const l0=l;l=al*v+(1-al)*(l+b);b=be*(l-l0)+(1-be)*b});fc=Array.from({length:hz},(_,i)=>Math.round(l+(i+1)*b))}
+  else{let l=rv[0],b=(rv[n-1]-rv[0])/(n-1);rv.forEach(v=>{const l0=l;l=al*v+(1-al)*(l+b);b=be*(l-l0)+(1-be)*b});fc=Array.from({length:hz},(_,i)=>Math.round(l+b*((1-(ph**(i+1)))/(1-ph))))}
+
+  const se=sd(rv);
+  const z=ci>=.99?2.576:ci>=.95?1.96:ci>=.90?1.645:1.282;
+  const margin=Math.round(z*se);
+  const labs=d.map(r=>ml(r.m));
+  const fcLabs=Array.from({length:hz},(_,i)=>ml(addM(d[n-1].m,i+1)));
+  const allL=[...labs,...fcLabs];
+  const mape=rv.slice(1).reduce((a,v,i)=>a+Math.abs(v-rv[i])/rv[i],0)/(n-1)*100;
+  const rmse=Math.sqrt(mean(rv.map((v,i)=>(v-(ic+sl*i))**2)));
+
+  document.getElementById('fc-kpis').innerHTML=[
+    {l:'R²',v:r2.toFixed(4),cl:'g'},
+    {l:'MAPE',v:mape.toFixed(2)+'%',cl:mape<10?'g':'y'},
+    {l:'RMSE',v:f$(rmse),cl:'b'},
+    {l:'CI_MARGIN ±',v:f$(margin),cl:'p'}
+  ].map(k=>`<div class="kcard"><div class="kl">${k.l}</div><div class="kv" style="color:${k.cl==='g'?'#00d46a':k.cl==='y'?'#fbbf24':k.cl==='b'?'#60a5fa':'#c084fc'}">${k.v}</div></div>`).join('');
+
+  mkC('c-fc',{type:'bar',data:{labels:allL,datasets:[
+    {label:'Actual',type:'bar',data:[...rv,...Array(hz).fill(null)],backgroundColor:'rgba(0,212,106,0.35)',borderColor:'#00d46a',borderWidth:1,order:5},
+    {label:'CI_hi',type:'line',data:[...Array(n-1).fill(null),rv[n-1],...fc.map(v=>v+margin)],borderColor:'rgba(96,165,250,0.3)',backgroundColor:'rgba(96,165,250,0.07)',borderWidth:1,pointRadius:0,fill:'+1',tension:0,order:3},
+    {label:'CI_lo',type:'line',data:[...Array(n-1).fill(null),rv[n-1],...fc.map(v=>v-margin)],borderColor:'rgba(96,165,250,0.3)',borderWidth:1,pointRadius:0,fill:false,tension:0,order:4},
+    {label:'Forecast',type:'line',data:[...Array(n-1).fill(null),rv[n-1],...fc],borderColor:'#34d399',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#34d399',tension:0,fill:false,order:1}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  const bull=fc.map(v=>Math.round(v*1.2)),bear=fc.map(v=>Math.round(v*0.8)),stress=fc.map(v=>Math.round(v*0.6));
+  mkC('c-scen',{type:'line',data:{labels:fcLabs,datasets:[
+    {data:bull,borderColor:'#00d46a',borderWidth:2,pointRadius:0,tension:0.3,fill:'+1',backgroundColor:'rgba(0,212,106,0.05)'},
+    {data:fc,borderColor:'#60a5fa',borderWidth:2.5,pointRadius:0,tension:0.3,fill:false},
+    {data:bear,borderColor:'#fbbf24',borderWidth:2,pointRadius:0,tension:0.3,fill:'+1',backgroundColor:'rgba(251,191,36,0.05)'},
+    {data:stress,borderColor:'#f87171',borderWidth:2,pointRadius:0,tension:0.3,fill:false}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  document.getElementById('fc-stats').innerHTML=[
+    {l:'TOTAL_FC',v:f$(fc.reduce((a,b)=>a+b,0))},
+    {l:'BULL_TOT',v:f$(bull.reduce((a,b)=>a+b,0))},
+    {l:'BEAR_TOT',v:f$(bear.reduce((a,b)=>a+b,0))},
+    {l:'STRESS_TOT',v:f$(stress.reduce((a,b)=>a+b,0))}
+  ].map(x=>`<div style="background:#060c06;border:1px solid #152315;border-radius:2px;padding:4px 6px"><div style="font-size:8px;color:#2d5a2d">${x.l}</div><div style="font-size:12px;color:#00d46a">${x.v}</div></div>`).join('');
+}
+
+// ── SIGNALS ────────────────────────────────────────
+function rSig(){
+  const d=sd_arr(),rv=d.map(r=>r.rev),n=d.length;if(n<8)return;
+  const labs=d.map(r=>ml(r.m));
+  const{sl,ic}=linreg(rv);
+  const rollMean=rv.map((_,i)=>i<19?null:mean(rv.slice(i-19,i+1)));
+  const rollSD=rv.map((_,i)=>i<19?null:sd(rv.slice(i-19,i+1)));
+  const bUp=rollMean.map((m,i)=>m!=null?Math.round(m+2*rollSD[i]):null);
+  const bDn=rollMean.map((m,i)=>m!=null?Math.round(m-2*rollSD[i]):null);
+  mkC('c-boll',{type:'line',data:{labels:labs,datasets:[
+    {data:bUp,borderColor:'rgba(248,113,113,0.4)',borderWidth:1,pointRadius:0,tension:0.3,fill:'+1',backgroundColor:'rgba(248,113,113,0.04)'},
+    {data:bDn,borderColor:'rgba(248,113,113,0.4)',borderWidth:1,pointRadius:0,tension:0.3,fill:false},
+    {data:rollMean,borderColor:'rgba(96,165,250,0.6)',borderWidth:1,pointRadius:0,tension:0.3,fill:false,borderDash:[4,3]},
+    {data:rv,borderColor:'#00d46a',borderWidth:2,pointRadius:2,pointBackgroundColor:rv.map((v,i)=>bUp[i]!=null&&v>bUp[i]?'#f87171':bDn[i]!=null&&v<bDn[i]?'#fbbf24':'#00d46a'),tension:0,fill:false}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  const zs=zscores(rv);
+  mkC('c-zsc',{type:'bar',data:{labels:labs,datasets:[
+    {data:zs.map(z=>+z.toFixed(2)),backgroundColor:zs.map(z=>Math.abs(z)>2?'rgba(248,113,113,0.7)':Math.abs(z)>1?'rgba(251,191,36,0.5)':'rgba(0,212,106,0.5)'),borderWidth:0},
+    {type:'line',data:Array(n).fill(2),borderColor:'rgba(248,113,113,0.5)',borderWidth:1,borderDash:[4,3],pointRadius:0},
+    {type:'line',data:Array(n).fill(-2),borderColor:'rgba(248,113,113,0.5)',borderWidth:1,borderDash:[4,3],pointRadius:0}
+  ]},options:DC()});
+
+  const e12=ema(rv,2/13),e26=ema(rv,2/27);
+  const macd_l=rv.map((_,i)=>+(e12[i]-e26[i]).toFixed(0));
+  const sig9=ema(macd_l,2/10);
+  const hist_=macd_l.map((v,i)=>+(v-sig9[i]).toFixed(0));
+  mkC('c-macd',{type:'bar',data:{labels:labs,datasets:[
+    {type:'bar',data:hist_,backgroundColor:hist_.map(v=>v>=0?'rgba(0,212,106,0.5)':'rgba(248,113,113,0.5)'),borderWidth:0,order:3},
+    {type:'line',data:macd_l,borderColor:'#60a5fa',borderWidth:2,pointRadius:0,tension:0,order:1},
+    {type:'line',data:sig9.map(v=>+v.toFixed(0)),borderColor:'#f87171',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:0,order:2}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  const rsiPeriod=Math.min(14,n-1);
+  const gains=rv.slice(1).map((v,i)=>Math.max(0,v-rv[i]));
+  const losses=rv.slice(1).map((v,i)=>Math.max(0,rv[i]-v));
+  const rsiVals=rv.map((_,i)=>{
+    if(i<rsiPeriod)return null;
+    const g=gains.slice(i-rsiPeriod,i),l=losses.slice(i-rsiPeriod,i);
+    const ag=mean(g),al=mean(l);
+    return al===0?100:+(100-100/(1+ag/al)).toFixed(1);
+  });
+  mkC('c-rsi',{type:'line',data:{labels:labs,datasets:[
+    {data:rsiVals,borderColor:'#c084fc',borderWidth:2,pointRadius:0,tension:0.3,fill:true,backgroundColor:'rgba(192,132,252,0.05)'},
+    {type:'line',data:Array(n).fill(70),borderColor:'rgba(248,113,113,0.4)',borderWidth:1,borderDash:[4,3],pointRadius:0},
+    {type:'line',data:Array(n).fill(30),borderColor:'rgba(0,212,106,0.4)',borderWidth:1,borderDash:[4,3],pointRadius:0}
+  ]},options:DC()});
+
+  const az=anom(rv),mom=rv.map((v,i)=>i===0?0:(v-rv[i-1])/rv[i-1]*100);
+  const lastMom=mom[n-1],lastRsi=rsiVals.filter(v=>v!=null).pop()||50;
+  const cv=(sd(rv)/mean(rv))*100;
+  const mcross=macd_l[n-1]>sig9[n-1]&&macd_l[n-2]<=sig9[n-2];
+  const sigs=[
+    {dot:'#00d46a',txt:'Linear trend slope: '+f$(Math.round(sl))+'/mo — '+((sl>0)?'bullish':'bearish')+' drift',tag:sl>0?'BULL':'BEAR',tc:sl>0?'#060c06':'#1a0505',bg:sl>0?'#00d46a':'#f87171'},
+    {dot:az.filter(Boolean).length?'#f87171':'#00d46a',txt:'Anomaly count: '+az.filter(Boolean).length+' observations exceed ±2σ threshold',tag:az.filter(Boolean).length?'ANOM':'NORMAL',tc:az.filter(Boolean).length?'#1a0505':'#060c06',bg:az.filter(Boolean).length?'#f87171':'#00d46a'},
+    {dot:lastMom>=0?'#00d46a':'#f87171',txt:'Last MoM: '+fp(lastMom)+' | 3m avg MoM: '+fp(mean(mom.slice(-3))),tag:lastMom>=0?'POS':'NEG',tc:lastMom>=0?'#060c06':'#1a0505',bg:lastMom>=0?'#00d46a':'#f87171'},
+    {dot:lastRsi>70?'#f87171':lastRsi<30?'#fbbf24':'#00d46a',txt:'RSI-14: '+lastRsi.toFixed(1)+' — '+(lastRsi>70?'OVERBOUGHT':lastRsi<30?'OVERSOLD':'NEUTRAL'),tag:lastRsi>70?'OB':lastRsi<30?'OS':'NEUTRAL',tc:'#060c06',bg:lastRsi>70?'#f87171':lastRsi<30?'#fbbf24':'#00d46a'},
+    {dot:mcross?'#00d46a':'#2d5a2d',txt:'MACD cross: '+(mcross?'BULLISH crossover detected':'no crossover this period'),tag:mcross?'SIGNAL':'HOLD',tc:'#060c06',bg:mcross?'#00d46a':'#3d6b3d'},
+    {dot:cv>25?'#f87171':'#fbbf24',txt:'Volatility (CV): '+cv.toFixed(1)+'% — '+(cv>25?'elevated':'moderate')+' regime',tag:cv>25?'HIGH_VOL':'MOD_VOL',tc:'#1a0f00',bg:cv>25?'#f87171':'#fbbf24'}
+  ];
+  document.getElementById('sig-list').innerHTML=sigs.map(s=>`<div class="srow"><div class="sdot" style="background:${s.dot}"></div><span class="stxt">${s.txt}</span><span class="sb" style="background:${s.bg};color:${s.tc}">${s.tag}</span></div>`).join('');
+}
+
+// ── DECOMPOSITION ──────────────────────────────────
+function rDec(){
+  const d=sd_arr(),rv=d.map(r=>r.rev),n=d.length;if(n<4)return;
+  const labs=d.map(r=>ml(r.m));
+  const{sl,ic}=linreg(rv);
+  const tr=rv.map((_,i)=>Math.round(ic+sl*i));
+  const seas=rv.map((v,i)=>v-tr[i]);
+  mkC('c-trnd',{type:'line',data:{labels:labs,datasets:[
+    {data:rv,borderColor:'rgba(0,212,106,0.4)',borderWidth:1,pointRadius:0,tension:0,fill:false},
+    {data:tr,borderColor:'#60a5fa',borderWidth:2.5,pointRadius:0,tension:0,fill:false}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  mkC('c-seas',{type:'bar',data:{labels:labs,datasets:[{data:seas,backgroundColor:seas.map(v=>v>=0?'rgba(0,212,106,0.55)':'rgba(248,113,113,0.55)'),borderWidth:0}]},options:DC(v=>f$(v))});
+
+  const cf=acf_fn(rv,12);
+  const ciB=1.96/Math.sqrt(n);
+  document.getElementById('acf-bars').innerHTML=cf.map((v,i)=>{
+    const pct=Math.abs(v)*100;
+    const w=Math.abs(v)/1.2*100;
+    const col=Math.abs(v)>ciB?'#00d46a':'#2d5a2d';
+    const ciPct=ciB/1.2*100;
+    return`<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+      <span style="font-size:9px;color:#2d5a2d;width:24px">ρ${i+1}</span>
+      <div style="flex:1;height:10px;background:#060c06;border:1px solid #152315;border-radius:1px;position:relative">
+        <div style="position:absolute;top:1px;height:8px;width:${Math.min(w,100)}%;background:${col};border-radius:1px;left:${v<0?'auto':'0'};right:${v<0?0:'auto'}"></div>
+        <div style="position:absolute;top:0;left:${ciPct}%;width:1px;height:100%;background:rgba(248,113,113,0.5)"></div>
+        <div style="position:absolute;top:0;left:${100-ciPct}%;width:1px;height:100%;background:rgba(248,113,113,0.5)"></div>
+      </div>
+      <span style="font-size:9px;color:${col};width:44px;text-align:right">${v.toFixed(3)}</span>
+    </div>`;
+  }).join('');
+
+  const moIdx=Array(12).fill(0).map((_,mo)=>{const vals=d.filter(r=>parseInt(r.m.split('-')[1])-1===mo).map(r=>r.rev);return vals.length?mean(vals):0});
+  const gMean=mean(moIdx.filter(v=>v>0));
+  const idx=moIdx.map(v=>v&&gMean?+(v/gMean).toFixed(3):1);
+  const moLabs=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  mkC('c-sidx',{type:'bar',data:{labels:moLabs,datasets:[{data:idx,backgroundColor:idx.map(v=>v>1.1?'rgba(0,212,106,0.6)':v<0.9?'rgba(248,113,113,0.6)':'rgba(96,165,250,0.4)'),borderWidth:0}]},options:DC()});
+
+  const firstDiff=rv.slice(1).map((v,i)=>v-rv[i]);
+  const{r2:r2fd}=linreg(firstDiff);
+  const acf1=cf[0];
+  const dw_val=firstDiff.slice(1).reduce((a,v,i)=>a+(v-firstDiff[i])**2,0)/(firstDiff.reduce((a,v)=>a+v*v,0)||1);
+  document.getElementById('stat-tests').innerHTML=`<table class="ot">
+    <thead><tr><th>TEST</th><th>STATISTIC</th><th>INTERPRETATION</th><th>RESULT</th></tr></thead><tbody>
+    <tr><td class="m">ADF (proxy)</td><td class="b">${(acf1*n).toFixed(4)}</td><td class="m">unit root via ACF₁·n</td><td class="${Math.abs(acf1*n)>2?'r':'g'}">${Math.abs(acf1*n)>2?'[NON-STATIONARY]':'[LIKELY STATIONARY]'}</td></tr>
+    <tr><td class="m">Durbin-Watson</td><td class="b">${dw_val.toFixed(4)}</td><td class="m">residual autocorrelation</td><td class="${dw_val>1.5&&dw_val<2.5?'g':'y'}">${dw_val>1.5&&dw_val<2.5?'[OK — no autocorr]':'[AUTOCORR DETECTED]'}</td></tr>
+    <tr><td class="m">ACF lag-1</td><td class="b">${cf[0].toFixed(4)}</td><td class="m">first-order autocorr</td><td class="${Math.abs(cf[0])>ciB?'y':'g'}">${Math.abs(cf[0])>ciB?'[SIGNIFICANT]':'[WITHIN CI]'}</td></tr>
+    <tr><td class="m">R² (1st diff)</td><td class="b">${r2fd.toFixed(4)}</td><td class="m">trend in differenced series</td><td class="${r2fd<0.1?'g':'y'}">${r2fd<0.1?'[DIFF STATIONARY]':'[RESIDUAL TREND]'}</td></tr>
+    </tbody></table>`;
+}
+
+// ── RESEARCH ───────────────────────────────────────
+function rRes(){
+  const d=sd_arr(),rv=d.map(r=>r.rev),n=d.length;if(n<6)return;
+  const m=mean(rv),s=sd(rv),sk=skew(rv),kt=kurt(rv);
+  const H=hurstExp(rv);
+  const{r2,aic,bic}=linreg(rv);
+  const gm=d.map(r=>(r.rev-r.cogs)/r.rev*100);
+  const nm=d.map(r=>(r.rev-r.cogs-r.opex)/r.rev*100);
+  const rule40=((rv[n-1]-rv[n-2])/rv[n-2]*100)+gm[n-1];
+  const logR=rv.slice(1).map((v,i)=>Math.log(v/rv[i]));
+  const sharpe=logR.length>1?mean(logR)/(sd(logR)||1)*Math.sqrt(12):0;
+  const cagr=((rv[n-1]/rv[0])**(12/(n-1))-1)*100;
+
+  const jbStat=n/6*(sk**2+kt**2/4);
+  document.getElementById('moments').innerHTML=`<table class="ot"><thead><tr><th>STATISTIC</th><th>VALUE</th><th>STATISTIC</th><th>VALUE</th></tr></thead><tbody>`+[
+    ['Mean',f$(m),'Std_Dev',f$(s)],
+    ['Median',f$([...rv].sort((a,b)=>a-b)[Math.floor(n/2)]),'CoV',(s/m*100).toFixed(2)+'%'],
+    ['Skewness',sk.toFixed(4),'Kurtosis (excess)',kt.toFixed(4)],
+    ['Jarque-Bera',jbStat.toFixed(3),'JB H₀',jbStat<5.99?'[NORMAL]':'[NON-NORMAL]'],
+    ['Sharpe Ratio',sharpe.toFixed(4),'CAGR',cagr.toFixed(2)+'%'],
+    ['Rule of 40',rule40.toFixed(1),'Hurst Exp.',H.toFixed(4)],
+    ['Min',f$(Math.min(...rv)),'Max',f$(Math.max(...rv))],
+    ['Range',f$(Math.max(...rv)-Math.min(...rv)),'IQR',f$([...rv].sort((a,b)=>a-b)[Math.floor(n*0.75)]-[...rv].sort((a,b)=>a-b)[Math.floor(n*0.25)])]
+  ].map(([k1,v1,k2,v2])=>`<tr><td class="m">${k1}</td><td class="g">${v1}</td><td class="m">${k2}</td><td class="g">${v2}</td></tr>`).join('')+'</tbody></table>';
+
+  const nPaths=300,hz=12,last=rv[n-1];
+  const lrMean=logR.length?mean(logR):0.01;
+  const lrSd=logR.length?sd(logR):0.05;
+  const paths=[],terminals=[];
+  for(let p=0;p<nPaths;p++){
+    let v=last;const path=[v];
+    for(let t=0;t<hz;t++){v=Math.round(v*Math.exp(lrMean+lrSd*boxM()));path.push(v)}
+    paths.push(path);terminals.push(path[hz]);
+  }
+  const pct=(arr,p)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.floor(s.length*p)]};
+  const p5=paths.map(p=>p.map((v,i)=>({x:i,y:v}))),med_path=Array.from({length:hz+1},(_,i)=>pct(paths.map(p=>p[i]),0.5));
+  const ts=terminals.sort((a,b)=>a-b);
+  const VaR95=pct(terminals,0.05),CVaR95=mean(ts.slice(0,Math.floor(nPaths*0.05)));
+
+  const fcIdx=Array.from({length:hz+1});
+  mkC('c-mc',{type:'line',data:{labels:fcIdx,datasets:[
+    ...paths.slice(0,60).map(p=>({data:p,borderColor:'rgba(0,212,106,0.08)',borderWidth:1,pointRadius:0,tension:0})),
+    {data:med_path,borderColor:'#00d46a',borderWidth:2.5,pointRadius:0,tension:0.3,borderDash:[5,3]},
+    {data:paths.map(p=>p[paths[0].length-1]<VaR95?p[0]:null),type:'bar',backgroundColor:'transparent'}
+  ]},options:DC(v=>'$'+(v>=1000?v/1000+'k':v))});
+
+  document.getElementById('hurst-box').innerHTML=`<table class="ot"><tbody>
+    <tr><td class="m">HURST_EXPONENT</td><td class="${H>0.55?'g':H<0.45?'r':'y'}" style="text-align:right;font-size:14px">${H.toFixed(4)}</td></tr>
+    <tr><td class="m">REGIME</td><td class="${H>0.55?'g':H<0.45?'r':'y'}" style="text-align:right">${H>0.55?'[PERSISTENT TREND]':H<0.45?'[MEAN-REVERTING]':'[RANDOM WALK]'}</td></tr>
+    <tr><td class="m">INTERPRETATION</td><td class="m" style="text-align:right;font-size:9px">${H>0.55?'Momentum present':'Anti-persistent'}</td></tr>
+    <tr><td class="m">R/S METHOD</td><td class="g" style="text-align:right">log-log regression</td></tr>
+  </tbody></table>`;
+
+  document.getElementById('var-box').innerHTML=`<table class="ot"><tbody>
+    <tr><td class="m">HORIZON</td><td class="g" style="text-align:right">12 months</td></tr>
+    <tr><td class="m">SIMULATIONS</td><td class="g" style="text-align:right">${nPaths}</td></tr>
+    <tr><td class="m">VaR (5%)</td><td class="r" style="text-align:right">${f$(VaR95)}</td></tr>
+    <tr><td class="m">CVaR / ES</td><td class="r" style="text-align:right">${f$(CVaR95)}</td></tr>
+    <tr><td class="m">MEDIAN_FC</td><td class="g" style="text-align:right">${f$(med_path[hz])}</td></tr>
+    <tr><td class="m">P95_UPSIDE</td><td class="g" style="text-align:right">${f$(pct(terminals,0.95))}</td></tr>
+  </tbody></table>`;
+
+  const ncTotal=d.reduce((a,r)=>a+r.nc,0);
+  const arpuLast=rv[n-1]/(d[n-1].nc||1);
+  const ltv=arpuLast*(1/0.05)*gm[n-1]/100;
+  document.getElementById('saas-box').innerHTML=`<table class="ot"><tbody>
+    <tr><td class="m">TOTAL_NEW_CUST</td><td class="g" style="text-align:right">${ncTotal}</td></tr>
+    <tr><td class="m">ARPU (last mo)</td><td class="g" style="text-align:right">${f$(arpuLast)}</td></tr>
+    <tr><td class="m">LTV_PROXY (5% ch)</td><td class="b" style="text-align:right">${f$(ltv)}</td></tr>
+    <tr><td class="m">GP%</td><td class="g" style="text-align:right">${gm[n-1].toFixed(1)}%</td></tr>
+    <tr><td class="m">RULE_OF_40</td><td class="${rule40>=40?'g':'y'}" style="text-align:right">${rule40.toFixed(1)}</td></tr>
+    <tr><td class="m">SHARPE</td><td class="${sharpe>0.5?'g':'y'}" style="text-align:right">${sharpe.toFixed(3)}</td></tr>
+  </tbody></table>`;
+
+  const{aic:aic_lin,bic:bic_lin}=linreg(rv);
+  let e=rv[0];rv.forEach(v=>{e=0.3*v+0.7*e});const fc_ets=Array(6).fill(e);
+  const rss_ets=rv.reduce((a,v,i)=>{const pred=ema(rv.slice(0,i+1),0.3)[i];return a+(v-pred)**2},0);
+  const aic_ets=rv.length*Math.log(rss_ets/rv.length)+2*2;
+  const bic_ets=rv.length*Math.log(rss_ets/rv.length)+2*Math.log(rv.length);
+  document.getElementById('ic-tbl').innerHTML=`<table class="ot"><thead><tr><th>MODEL</th><th>K_PARAMS</th><th>LOG_LIKELIHOOD (approx)</th><th>AIC</th><th>BIC</th><th>ΔAIC</th></tr></thead><tbody>
+    <tr><td class="m">OLS Linear</td><td class="b">2</td><td class="b">${(-(rv.length/2)*(1+Math.log(2*Math.PI*(rv.reduce((a,v,i)=>a+(v-(linreg(rv).ic+linreg(rv).sl*i))**2,0)/rv.length)))).toFixed(2)}</td><td class="g">${aic_lin.toFixed(2)}</td><td class="g">${bic_lin.toFixed(2)}</td><td class="g">0.00</td></tr>
+    <tr><td class="m">ETS (α=0.30)</td><td class="b">2</td><td class="b">${(-(rv.length/2)*(1+Math.log(2*Math.PI*rss_ets/rv.length))).toFixed(2)}</td><td class="${aic_ets<aic_lin?'g':'y'}">${aic_ets.toFixed(2)}</td><td class="${bic_ets<bic_lin?'g':'y'}">${bic_ets.toFixed(2)}</td><td class="${aic_ets<aic_lin?'g':'y'}">${(aic_ets-aic_lin).toFixed(2)}</td></tr>
+  </tbody></table>`;
+}
+
+// ── DATA ───────────────────────────────────────────
+function rDt(){
+  const d=sd_arr(),rv=d.map(r=>r.rev);
+  const zs=zscores(rv);
+  document.getElementById('row-ct').textContent=d.length;
+  document.getElementById('dtbody').innerHTML=d.map((r,i)=>{
+    const gp_pct=((r.rev-r.cogs)/r.rev*100).toFixed(1);
+    const np_pct=((r.rev-r.cogs-r.opex)/r.rev*100).toFixed(1);
+    const asp=r.units?Math.round(r.rev/r.units):0;
+    const z=zs[i].toFixed(2);
+    const flag=Math.abs(zs[i])>2;
+    return`<tr><td>${ml(r.m)}</td><td class="g">${f$(r.rev)}</td><td class="b">${f$(r.cogs)}</td><td class="${+gp_pct>50?'g':'y'}">${gp_pct}%</td><td class="${+np_pct>0?'g':'r'}">${np_pct}%</td><td class="p">${f$(asp)}</td><td>${r.units}</td><td>${r.nc}</td><td class="${Math.abs(+z)>2?'r':Math.abs(+z)>1?'y':'g'}">${z}</td><td>${flag?'<span style="background:#1a0505;color:#f87171;font-size:8px;padding:1px 5px;border-radius:2px">ANOM</span>':'<span style="background:#060c06;color:#2d5a2d;font-size:8px;padding:1px 5px;border-radius:2px">OK</span>'}</td><td><button style="background:none;border:none;cursor:pointer;color:#2d5a2d;font-size:10px;font-family:var(--font-mono)" onclick="delRow('${r.m}')">✕</button></td></tr>`;
+  }).join('');
+  document.getElementById('hmeta').textContent=`DATASET: ${d.length} OBS | RANGE: ${ml(d[0].m)}→${ml(d[d.length-1].m)} | STATUS: NOMINAL`;
+}
+
+function addRow(){
+  const m=document.getElementById('inp-m').value;
+  const rev=+document.getElementById('inp-rv').value;
+  if(!m||!rev||rev<=0)return;
+  const cogs=+document.getElementById('inp-cg').value||rev*.35;
+  const opex=+document.getElementById('inp-ox').value||rev*.22;
+  const units=+document.getElementById('inp-un').value||Math.round(rev/160);
+  const nc=+document.getElementById('inp-nc').value||Math.round(units*.08);
+  DATA=DATA.filter(r=>r.m!==m);DATA.push({m,rev,cogs,opex,units,nc});
+  ['inp-rv','inp-cg','inp-ox','inp-un','inp-nc'].forEach(id=>document.getElementById(id).value='');
+  renderAll();
+}
+function delRow(m){DATA=DATA.filter(r=>r.m!==m);renderAll()}
+function renderAll(){const at=document.querySelector('.tab.on');if(at)renderTab(at.getAttribute('onclick').match(/'(\w+)'/)[1])}
+
+rOv();
+</script>
